@@ -18,10 +18,20 @@ function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"]
     # device = PortAudio.devices()[4]
     S = 44100 # sampling rate (samples / second)
     ns = duration * S # total number of samples
-    x = cos.(2pi*(1:2ns)*base_freq/S) #+ cos.(duration*pi*(1:ns)*base_freq*1.5/S) # A440 tone for 2 seconds
+    x = amplitude_envelope(2ns) .* cos.(2pi*(1:2ns)*base_freq/S) #+ cos.(duration*pi*(1:ns)*base_freq*1.5/S) # A440 tone for 2 seconds
     PortAudioStream(device,0, 2; samplerate=S) do stream
            write(stream, x)
     end
+end
+
+function amplitude_envelope(nsamples)
+    attack = Int(nsamples * 0.1)
+    decay = Int(nsamples * 0.1)
+    sustain = nsamples - attack - decay
+    env = vcat(range(0, stop=1, length=attack),
+               ones(sustain),
+               range(1, stop=0, length=decay))
+    return env
 end
 
 
