@@ -21,10 +21,15 @@ function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"]
     device = find_device("MacBook Air Speakers") # Replace with actual substring of your device nam
     S = sample_rate # sampling rate (samples / second)
     ns = duration * S # total number of samples
-    x = amplitude_envelope(2ns) .* cos.(2pi*(1:2ns)*base_freq/S) #+ cos.(duration*pi*(1:ns)*base_freq*1.5/S) # A440 tone for 2 seconds
+    x = sine(ns, base_freq, S, amplitude_envelope)
     PortAudioStream(device,0, 2; samplerate=S) do stream
            write(stream, x)
     end
+end
+
+
+function sine(ns, base_freq, S, amplitude_envelope)
+     x = amplitude_envelope(2ns) .* sin.(2pi*(1:2ns)*base_freq/S) #+ cos.(duration*pi*(1:ns)*base_freq*1.5/S) # A440 tone for 2 seconds
 end
 
 
