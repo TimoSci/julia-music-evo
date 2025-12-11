@@ -1,6 +1,9 @@
 import TOML
 using PortAudio
 
+include( "./envelopes.jl")
+# using .envelopes: amplitude_envelope_linear
+
 cfg = TOML.parsefile("config.toml")
 
 function find_device(name_substring)
@@ -13,6 +16,7 @@ function find_device(name_substring)
     error("Device with name containing '$name_substring' not found.")
 end
 
+
 function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"], amplitude_envelope=amplitude_envelope_linear)
     device = find_device("MacBook Air Speakers") # Replace with actual substring of your device nam
     # device = PortAudio.devices()[4]
@@ -24,15 +28,7 @@ function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"]
     end
 end
 
-function amplitude_envelope_linear(nsamples)
-    attack = Int(nsamples * 0.1)
-    decay = Int(nsamples * 0.1)
-    sustain = nsamples - attack - decay
-    env = vcat(range(0, stop=1, length=attack),
-               ones(sustain),
-               range(1, stop=0, length=decay))
-    return env
-end
+
 
 
 
