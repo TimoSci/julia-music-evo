@@ -1,0 +1,4 @@
+[app]
+name = "MyApp"
+base_freq = 440
+duration = 2
