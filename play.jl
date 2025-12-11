@@ -10,7 +10,7 @@ function find_device(name_substring)
     error("Device with name containing '$name_substring' not found.")
 end
 
-function play()
+function play(base_freq=440, duration=2)
     device = find_device("MacBook Air Speakers") # Replace with actual substring of your device nam
     # device = PortAudio.devices()[4]
     S = 44100 # sampling rate (samples / second)
