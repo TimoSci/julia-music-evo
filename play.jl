@@ -13,7 +13,7 @@ function find_device(name_substring)
     error("Device with name containing '$name_substring' not found.")
 end
 
-function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"])
+function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"], amplitude_envelope=amplitude_envelope_linear)
     device = find_device("MacBook Air Speakers") # Replace with actual substring of your device nam
     # device = PortAudio.devices()[4]
     S = 44100 # sampling rate (samples / second)
@@ -24,7 +24,7 @@ function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"]
     end
 end
 
-function amplitude_envelope(nsamples)
+function amplitude_envelope_linear(nsamples)
     attack = Int(nsamples * 0.1)
     decay = Int(nsamples * 0.1)
     sustain = nsamples - attack - decay
