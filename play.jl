@@ -18,7 +18,7 @@ end
 
 
 function play(base_freq=cfg["app"]["base_freq"], duration=cfg["app"]["duration"], amplitude_envelope=amplitude_envelope_linear, sample_rate=cfg["app"]["sample_rate"])
-    device = find_device("MacBook Air Speakers") # Replace with actual substring of your device nam
+    device = find_device(Regex(cfg["local"]["device"])) # Replace with actual substring of your device nam
     S = sample_rate # sampling rate (samples / second)
     sine = make_instrument(harmonic_wave,S, amplitude_envelope)
     x = sine(base_freq, duration)
@@ -42,7 +42,7 @@ function sinewave(sample_number,frequency,sample_rate)
 end
 
 # Harmonic wave generator
-function harmonic_wave(sample_number,frequency,sample_rate,harmonics=[0.5,0.25,0.125])
+function harmonic_wave(sample_number,frequency,sample_rate,harmonics=[0.5,0.25,0.125,0.0625,0.03125])
    wave = zeros(sample_number)
    for (i,amp) in enumerate(harmonics)
        wave .+= amp .* sinewave(sample_number, frequency*(i), sample_rate)

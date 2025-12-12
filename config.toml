@@ -3,3 +3,6 @@ name = "MyApp"
 sample_rate = 44100
 base_freq = 440
 duration = 2
+
+[local]
+device = "MacBook.*Speakers"
